@@ -131,9 +131,9 @@ def insert_predmetsnabz(nops_id_vvst, predmet_inn, predmet_name, predmet_oboznac
 
 if __name__ == "__main__":
     new_db = DbCommands()
-    # new_db.create_main_db()
+    new_db.create_main_db()
     # new_db.insert_operators('Леонова Оксана Александровна')
     # new_db.insert_operators('Федосов Антон Станиславович')
     # new_db.insert_operators('Индюхов Кирилл Александрович')
-    operators = new_db.select_db_info('SELECT name_operator FROM operator')
-    print(*operators)
+    # operators = new_db.select_db_info('SELECT name_operator FROM operator')
+    # print(*operators)

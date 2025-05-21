@@ -1,1 +1,1 @@
-pyside6-uic main.ui > ui_main.py
+pyside6-uic UI/main.ui -o GUI/ui_main.py
