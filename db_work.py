@@ -19,6 +19,14 @@ class DbCommands:
                 "name_operator"	TEXT,
                 PRIMARY KEY("key_operator" AUTOINCREMENT)
                );''')
+
+        self.c.execute('''
+                    CREATE TABLE IF NOT EXISTS "operator" (
+                        "key_operator"	INTEGER NOT NULL UNIQUE,
+                        "name_operator"	TEXT,
+                        PRIMARY KEY("key_operator" AUTOINCREMENT)
+                       );''')
+
         self.conn_users.commit()
         self.conn_users.close()
 
