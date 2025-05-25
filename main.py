@@ -1,4 +1,7 @@
 import sys
+
+from PySide6.QtCore import QUrl
+from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QApplication, QMainWindow
 from datetime import datetime
 
@@ -30,11 +33,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for operator in operators:
             self.comboBox_user.addItem(operator[0])  # добавляем оператора в комбобокс
 
-        # Можно подключить сигналы здесь
+        self.setWindowTitle('Программа-помощник call-центра Центра катлогизации')
         self.comboBox_user.currentIndexChanged.connect(self.on_combo_changed)
         self.stackedWidget.setCurrentIndex(0)
         self.pushButton_call_start.clicked.connect(lambda: self.choose_page(page_index=1))
         self.pushButton_call_end.clicked.connect(lambda: self.choose_page(page_index=0))
+        self.lineEdit_ispolnitel_poisk.setPlaceholderText('Поле для поиска организации')
+        self.lineEdit_ispolnitel.setPlaceholderText('Итоговое поле для заполнения')
+        self.pushButton_open_excel.clicked.connect(lambda: self.open_excel())
 
     def on_combo_changed(self, index):
         print(f"Выбран оператор: {self.comboBox_user.itemText(index)}")
@@ -52,8 +58,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.lineEdit_time_start.setText(self.start_time)
         elif page_index == 0:
             self.end_time = get_curr_time()
-            print(datetime(self.start_time) - datetime(self.end_time))
+            delta_time = datetime.strptime(self.end_time, "%Y-%m-%d %H:%M:%S") - datetime.strptime(self.start_time,
+                                                                                                   "%Y-%m-%d %H:%M:%S")
+            print(str(delta_time))
         self.stackedWidget.setCurrentIndex(page_index)
+
+    def open_excel(self):
+        # Укажи путь к твоему файлу здесь
+        file_path = "otchet.xlsx"
+
+        # Открываем файл стандартной программой Windows
+        url = QUrl.fromLocalFile(file_path)
+        QDesktopServices.openUrl(url)
 
 
 if __name__ == "__main__":
