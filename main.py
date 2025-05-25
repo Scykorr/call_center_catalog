@@ -1,9 +1,11 @@
+import os
 import sys
 
 from PySide6.QtCore import QUrl
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QApplication, QMainWindow
 from datetime import datetime
+import pandas as pd
 
 # Импортируем сгенерированный UI
 from GUI.ui_main import Ui_MainWindow
@@ -57,10 +59,52 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.start_time = get_curr_time()
             self.lineEdit_time_start.setText(self.start_time)
         elif page_index == 0:
+            operator = self.comboBox_user.currentText()
+            ispolnotel_gk = self.lineEdit_ispolnitel.text()
+            fio_sobesednika = self.lineEdit_username.text()
+            dolznost = self.lineEdit_dolznost.text()
+            phone = self.lineEdit_phone.text()
+            email = self.lineEdit_email.text()
+            zakazchik = self.lineEdit_zakazchik.text()
+            thema = self.textEdit_theme.toPlainText()
+            naim_ps = self.textEdit_naim_ps.toPlainText()
+            opis_ps = self.textEdit_opisanie_ps.toPlainText()
+            comment = self.textEdit_comment.toPlainText()
+            start_time = self.start_time
             self.end_time = get_curr_time()
             delta_time = datetime.strptime(self.end_time, "%Y-%m-%d %H:%M:%S") - datetime.strptime(self.start_time,
                                                                                                    "%Y-%m-%d %H:%M:%S")
-            print(str(delta_time))
+            file_path = "otchet.xlsx"
+            if os.path.exists(file_path):
+                df = pd.read_excel(file_path)
+                next_index = len(df) + 1
+
+                new_row = {
+                    "№ п/п": next_index,
+                    "Оператор": operator,
+                    "Исполнитель ГК": ispolnotel_gk,
+                    "ФИО собеседника": fio_sobesednika,
+                    "Должность": dolznost,
+                    "Контактный телефон": phone,
+                    "Котнактный email": email,
+                    "Заказчик": zakazchik,
+                    "Тема звонка": thema,
+                    "Наименование ПС": naim_ps,
+                    "Описание ПС": opis_ps,
+                    "Поле для комментариев": comment,
+                    "Дата начала звонка": start_time,
+                    "Дата окончания звонка": self.end_time,
+                    "Продолжительность звонка": str(delta_time),
+                }
+
+                # Добавляем новую строку
+                df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+
+                # Сохраняем обратно в Excel
+                df.to_excel(file_path, index=False)
+                print("Данные успешно сохранены в Excel")
+
+
         self.stackedWidget.setCurrentIndex(page_index)
 
     def open_excel(self):

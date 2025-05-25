@@ -212,7 +212,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_phone_2">
+     <widget class="QLineEdit" name="lineEdit_email">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -274,7 +274,7 @@
        <string>Заказчик</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_phone_3">
+     <widget class="QLineEdit" name="lineEdit_zakazchik">
       <property name="geometry">
        <rect>
         <x>280</x>
