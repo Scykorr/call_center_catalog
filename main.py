@@ -43,6 +43,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.lineEdit_ispolnitel_poisk.setPlaceholderText('Поле для поиска организации')
         self.lineEdit_ispolnitel.setPlaceholderText('Итоговое поле для заполнения')
         self.pushButton_open_excel.clicked.connect(lambda: self.open_excel())
+        self.lineEdit_ispolnitel_poisk.setVisible(False)
+        self.comboBox_ispolnitel.setVisible(False)
 
     def on_combo_changed(self, index):
         print(f"Выбран оператор: {self.comboBox_user.itemText(index)}")
@@ -74,6 +76,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.end_time = get_curr_time()
             delta_time = datetime.strptime(self.end_time, "%Y-%m-%d %H:%M:%S") - datetime.strptime(self.start_time,
                                                                                                    "%Y-%m-%d %H:%M:%S")
+            type_predpriyatie = self.comboBo_type_predpriyatie.currentText()
             file_path = "otchet.xlsx"
             if os.path.exists(file_path):
                 df = pd.read_excel(file_path)
@@ -95,6 +98,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     "Дата начала звонка": start_time,
                     "Дата окончания звонка": self.end_time,
                     "Продолжительность звонка": str(delta_time),
+                    "Предприятие-изготовитель": type_predpriyatie,
                 }
 
                 # Добавляем новую строку
